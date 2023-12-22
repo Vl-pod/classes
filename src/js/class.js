@@ -44,4 +44,27 @@ export default class Character {
         throw new Error('Invalid character type.');
     }
   }
+
+  levelUp() {
+    if (this.health === 0) {
+      throw new Error('Cannot level up a dead character.');
+    }
+
+    this.level += 1;
+    this.attack += Math.round(this.attack * 0.2);
+    this.defence += Math.round(this.defence * 0.2);
+
+    // Уровень здоровья после повышения не может превышать 100
+    this.health = Math.min(this.health + 20, 100);
+  }
+
+  damage(points) {
+    if (this.health === 0) {
+      throw new Error('Cannot damage a dead character.');
+    }
+
+    // Рассчитываем итоговое изменение здоровья
+    const damageTaken = points * (1 - this.defence / 100);
+    this.health = Math.max(this.health - damageTaken, 0);
+  }
 }

@@ -75,4 +75,32 @@ describe('Character', () => {
     expect(daemon.attack).toBe(10);
     expect(daemon.defence).toBe(40);
   });
+
+  it('should level up the character', () => {
+    const character = new Character('Legolas', 'Bowman');
+    character.levelUp();
+    expect(character.level).toBe(2);
+    expect(character.attack).toBe(30); // 25 + 20% = 30
+    expect(character.defence).toBe(30); // 25 + 20% = 30
+    expect(character.health).toBe(100); // Не может превышать 100
+  });
+
+  it('should not level up a dead character', () => {
+    const character = new Character('Aragorn', 'Swordsman');
+    character.health = 0;
+    expect(() => character.levelUp()).toThrow('Cannot level up a dead character.');
+  });
+
+  it('should damage the character', () => {
+    const character = new Character('Gandalf', 'Magician');
+    character.damage(20);
+    // 100 - 20 * (1 - 40 / 100) = 88 (исправлено)
+    expect(character.health).toBe(88);
+  });
+
+  it('should not damage a dead character', () => {
+    const character = new Character('Zack', 'Zombie');
+    character.health = 0;
+    expect(() => character.damage(10)).toThrow('Cannot damage a dead character.');
+  });
 });
