@@ -1,4 +1,4 @@
-import Character from '../class';
+import Character from '../Character';
 
 describe('Character', () => {
   it('should create a character with valid name and type', () => {
